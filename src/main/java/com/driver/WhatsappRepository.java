@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 public class WhatsappRepository {
 
     //Assume that each user belongs to at most one group
-    //You can use the below mentioned hashmaps or delete these and create your own.
+    //You can use the below-mentioned hashmaps or delete these and create your own.
     private HashMap<Group, List<User>> groupUserMap;
     private HashMap<Group, List<Message>> groupMessageMap;
     private HashMap<Message, User> senderMap;
@@ -26,13 +26,18 @@ public class WhatsappRepository {
         this.customGroupCount = 0;
         this.messageId = 0;
     }
-    public void createUser(String name, String mobile) {
-        userData.put(mobile, new User(name, mobile));
+    public String createUser(String name, String mobile)throws Exception {
+        if(userData.containsKey(mobile)){
+            return "User already exists";
+        }
+        else{
+            userData.put(mobile, new User(name, mobile));
+            return "SUCCESS";
+        }
     }
 
     public boolean isNewUser(String mobile) {
-        if(userData.containsKey(mobile)) return false;
-        return true;
+        return !userData.containsKey(mobile);
     }
 
 
